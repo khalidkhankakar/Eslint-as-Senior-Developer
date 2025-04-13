@@ -1,8 +1,8 @@
 {
   "name": "node_project",
   "version": "1.0.0",
-  "author": "",
   "description": "",
+  "author": "",
   "license": "ISC",
   "main": "index.ts",
   "scripts": {
