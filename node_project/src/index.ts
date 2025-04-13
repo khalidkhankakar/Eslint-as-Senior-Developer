@@ -1,4 +1,4 @@
 console.log("khalid");
 
-let hellow = 'hellow';
+const hellow = "hellow";
 console.log(hellow);
