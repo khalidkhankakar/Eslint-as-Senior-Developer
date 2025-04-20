@@ -1,1 +1,1 @@
-## BEST ESLINT CONFIGURATION 
+### Configure your eslint in different kind of project.
