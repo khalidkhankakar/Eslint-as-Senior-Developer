@@ -1,4 +1,1 @@
-console.log("khalid");
-
-const hellow = "hellow";
-console.log(hellow);
+console.log("welcome to the node project|");
