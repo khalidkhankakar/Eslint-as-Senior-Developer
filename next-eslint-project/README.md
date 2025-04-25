@@ -1,36 +1,179 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 ESLint Setup in Next.js using `@antfu/eslint-config`
 
-## Getting Started
+This guide helps you set up **ESLint** in a **Next.js** project using the powerful and opinionated [`@antfu/eslint-config`](https://github.com/antfu/eslint-config). It includes TypeScript support, custom rules, and VS Code integration for a seamless development experience.
 
-First, run the development server:
+---
+
+## 🚀 Getting Started
+
+### 1. Create a Next.js App
+
+You can use any tool to bootstrap your app:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Using NPX
+npx create-next-app@latest
+
+# Using BUN
+bunx create-next-app
+
+# Using Yarn
+yarn create next-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2. 🧩 Install ESLint & Antfu Config
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Once your Next.js app is created, install **ESLint** along with **@antfu/eslint-config** using your preferred package manager.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Using pnpm (recommended)
+```bash
+pnpm i -D eslint @antfu/eslint-config
+```
+### Or using npm
+```bash
+npm i -D eslint @antfu/eslint-config
+```
+### Or using yarn
+```bash
+yarn add -D eslint @antfu/eslint-config
+```
 
-## Learn More
+### Or using bun
+```bash
+bun add -d eslint @antfu/eslint-config
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 3. ⚙️ Create ESLint Configuration File
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Now, create a file named **`eslint.config.mjs`** in the root of your project and paste the following configuration:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```js
+import antfu from "@antfu/eslint-config";
 
-## Deploy on Vercel
+export default antfu(
+  {
+    type: "app",
+    typescript: true,
+    formatters: true,
+    stylistic: {
+      indent: 2,
+      semi: true,
+      quotes: "double",
+    },
+  },
+  {
+    rules: {
+      "ts/no-redeclare": "off",
+      "ts/consistent-type-definitions": ["error", "type"],
+      "no-console": ["warn"],
+      "antfu/no-top-level-await": ["off"],
+      "node/prefer-global/process": ["off"],
+      "node/no-process-env": ["error"],
+      "perfectionist/sort-imports": [
+        "error",
+        {
+          tsconfigRootDir: ".",
+        },
+      ],
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+          ignore: ["README.md"],
+        },
+      ],
+    },
+  }
+);
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ✅ Step 4: Setup VS Code for Auto-Fix on Save
+
+
+## 4. 🛠️ Setup VS Code for Auto-Fix on Save
+
+To make ESLint auto-fix your code whenever you save a file in **Visual Studio Code**, create a file at **`.vscode/settings.json`** and paste the following:
+
+```json
+{
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  "eslint.rules.customizations": [
+    { "rule": "style/*", "severity": "off", "fixable": true },
+    { "rule": "format/*", "severity": "off", "fixable": true },
+    { "rule": "*-indent", "severity": "off", "fixable": true },
+    { "rule": "*-spacing", "severity": "off", "fixable": true },
+    { "rule": "*-spaces", "severity": "off", "fixable": true },
+    { "rule": "*-order", "severity": "off", "fixable": true },
+    { "rule": "*-dangle", "severity": "off", "fixable": true },
+    { "rule": "*-newline", "severity": "off", "fixable": true },
+    { "rule": "*quotes", "severity": "off", "fixable": true },
+    { "rule": "*semi", "severity": "off", "fixable": true }
+  ],
+
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
+  ]
+}
+
+```
+
+## 5. 🚀 Add Lint Script to `package.json`
+
+To easily lint and fix your codebase, add the following script to your `package.json` file:
+
+```json
+{
+  "scripts": {
+    "lint:fix": "eslint . --fix"
+  }
+}
+```
+### 6. 🎉 Run your script
+```bash
+pnpm lint:fix
+```
+# or
+```bash
+npm run lint:fix
+```
+# or
+```bash
+yarn lint:fix
+```
+# or
+```bash
+bun run lint:fix
+```
+
+### ✅ Done!
+You're now all set with a clean and powerful ESLint setup using @antfu/eslint-config! 🧼🔥
+
